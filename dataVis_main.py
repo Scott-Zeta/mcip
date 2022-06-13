@@ -15,7 +15,7 @@ st.set_page_config(page_title="Code Analyzer",
                        'Report a bug': "https://github.com/Scott-Zeta",
                        'About': "Made by a1795409 \n Scott Zeta"
                    })
-st.write('<h1 style="color:#1AD0EA">Student's Code Analyzer</h1>',
+st.write('<h1 style="color:#1AD0EA">Students Source Code Analyzer</h1>',
          unsafe_allow_html=True,
          anchor=None)
 
