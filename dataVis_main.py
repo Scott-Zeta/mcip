@@ -15,7 +15,7 @@ st.set_page_config(page_title="Code Analyzer",
                        'Report a bug': "https://github.com/Scott-Zeta",
                        'About': "Made by a1795409 \n Scott Zeta"
                    })
-st.write('<h1 style="color:#1AD0EA">Students Code Analysis</h1>',
+st.write('<h1 style="color:#1AD0EA">student_nameents Code Analysis</h1>',
          unsafe_allow_html=True,
          anchor=None)
 
@@ -38,14 +38,14 @@ dataset_compare = pd.DataFrame()
 def create_Radar(dataset, name):
     # df = pd.DataFrame(dict(
     # frequency = dataset[1:],
-    # theta = ['functions','variables','conditionals','nestinglevels','assignments','branches','comparisons']))
+    # theta = ['functions','variables','conditionals','max_nesting_levels','assignments','branches','comparisons']))
     # fig = px.line_polar(df, r='frequency', theta='theta', line_close=True)
     # fig.update_traces(fill='toself')
     fig = go.Figure(data=go.Scatterpolar(
         r=dataset[1:],
         theta=[
-            'functions', 'variables', 'conditionals', 'nestinglevels',
-            'assignments', 'branches', 'comparisons'
+            'functions', 'variables', 'conditionals', 'max_nesting_levels',
+            'ABC_metric'
         ],
         fill='toself',
         name=name))
@@ -63,14 +63,14 @@ def create_histogram(dataset, binsize):
 
 def create_sc_matrix(dataset, list):
     if len(list) == 1:
-        fig = px.scatter(dataset, x=list[0], hover_name="stud")
+        fig = px.scatter(dataset, x=list[0], hover_name="student_name")
     elif len(list) == 2:
-        fig = px.scatter(dataset, x=list[0], y=list[1], hover_name="stud")
+        fig = px.scatter(dataset, x=list[0], y=list[1], hover_name="student_name")
     elif len(list) > 2:
         fig = px.scatter_matrix(dataset,
                                 dimensions=list,
                                 title="Scatter matrix",
-                                hover_name="stud")
+                                hover_name="student_name")
         fig.update_traces(diagonal_visible=False)
     return fig
 
@@ -96,14 +96,14 @@ with personal:
     if not dataset_init.empty:
         st.subheader('Personal indication', anchor=None)
         option = st.selectbox('Who would you like to check?', (dataset_init))
-        plot_data = dataset_init.set_index('stud').loc[[option
+        plot_data = dataset_init.set_index('student_name').loc[[option
                                                         ]].values.tolist()[0]
         fig = create_Radar(plot_data, option)
         st.plotly_chart(fig, use_container_width=True)
         profile_card = st.container()
         with profile_card:
             st.write('Name:', option)
-            st.write('Total Lines:', str(plot_data[1]))
+            st.write('Total Lines:', str(int(plot_data[0])))
             root = r"C:\Users\61694\OneDrive\Desktop\MCIProject\\" + option
             #You can change this root path
             open_button = st.button('Open Source Code')
@@ -121,7 +121,7 @@ with overview:
         st.subheader('Overview', anchor=None)
         option = st.selectbox(
             'Which Overview would you like to check?',
-            (dataset_init.set_index('stud').columns.tolist()))
+            (dataset_init.set_index('student_name').columns.tolist()))
         #binsize = st.slider('Please choose the binsize', 1, 10, 5)
         plot_data = dataset_init[option]
         plot_compare = dataset_compare[option]
@@ -131,7 +131,7 @@ with overview:
         st.subheader('Overview', anchor=None)
         option = st.selectbox(
             'Which Overview would you like to check?',
-            (dataset_init.set_index('stud').columns.tolist()))
+            (dataset_init.set_index('student_name').columns.tolist()))
         binsize = st.slider('Please choose the binsize', 1, 10, 5)
         plot_data = dataset_init[option]
         fig = create_histogram(plot_data, binsize)
@@ -146,7 +146,7 @@ with scmatrix:
         options_list = st.multiselect(
             'Which indications would you like to choose?', [
                 'lines', 'functions', 'variables', 'conditionals',
-                'nestinglevels', 'assignments', 'branches', 'comparisons'
+                'max_nesting_levels', 'ABC_metric'
             ], ['lines', 'functions'])
         if len(options_list) >= 1:
             fig = create_sc_matrix(dataset_init, options_list)
@@ -159,10 +159,10 @@ with toplist:
             'Select a indication you would like to check',
             options=[
                 'lines', 'functions', 'variables', 'conditionals',
-                'nestinglevels', 'assignments', 'branches', 'comparisons'
+                'max_nesting_levels', 'ABC_metric'
             ])
         order = st.radio(
-            "Select you want to check top or bottom 10 students",
+            "Select you want to check top or bottom 10 student_nameents",
             ('ascending', 'descending'))
         # asc_or_des = True
         if order == 'ascending':
