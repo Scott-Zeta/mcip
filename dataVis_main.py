@@ -104,7 +104,7 @@ with personal:
         with profile_card:
             st.write('Name:', option)
             st.write('Total Lines:', str(int(plot_data[0])))
-            root = r"C:\Users\61694\OneDrive\Desktop\MCIProject\\" + option
+            root = r"C:\Users\61694\OneDrive\Desktop\Data_Visualization\\" + option
             #You can change this root path
             open_button = st.button('Open Source Code')
             if open_button:
